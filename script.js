@@ -1,74 +1,56 @@
 const display = document.getElementById("display");
+const buttons = document.querySelectorAll(".calc-btn");
 const tabs = document.querySelectorAll(".tab");
-const allModes = document.querySelectorAll(".mode, .buttons");
-
-// === Переключение вкладок ===
+const modeContainers = document.querySelectorAll(".mode");
 let currentMode = "basic";
 
+// === Переключение режимов ===
 tabs.forEach(tab => {
   tab.addEventListener("click", () => {
     tabs.forEach(t => t.classList.remove("active"));
     tab.classList.add("active");
+
     currentMode = tab.dataset.mode;
-
-    allModes.forEach(m => m.classList.add("hidden"));
+    modeContainers.forEach(container => container.classList.add("hidden"));
     document.getElementById(`${currentMode}-mode`).classList.remove("hidden");
-
-    if (currentMode === "basic") display.value = "";
   });
 });
 
 // === Обычный калькулятор ===
-document.querySelectorAll("#basic-mode .btn").forEach(btn => {
+buttons.forEach(btn => {
   btn.addEventListener("click", () => {
-    const val = btn.textContent;
+    const value = btn.textContent;
 
-    if (val === "C") {
-      display.value = "";
-    } else if (val === "←") {
-      display.value = display.value.slice(0, -1);
-    } else if (val === "=") {
+    if (value === "=") {
       try {
-        let exp = display.value
+        const expression = display.value
+          .replace(/\^/g, "**") // поддержка степени
           .replace(/×/g, "*")
-          .replace(/÷/g, "/")
-          .replace(/−/g, "-")
-          .replace(/\^/g, "**");
-        display.value = eval(exp);
+          .replace(/÷/g, "/");
+
+        display.value = eval(expression);
       } catch {
         display.value = "Ошибка";
       }
+    } else if (value === "C") {
+      display.value = ""; // очистка
+    } else if (value === "←") {
+      display.value = display.value.slice(0, -1); // удаление последнего символа
     } else {
-      display.value += val;
+      display.value += value;
     }
   });
 });
 
-// === Простой калькулятор валют ===
-document.querySelector(".convert").addEventListener("click", () => {
-  const amount = parseFloat(document.getElementById("currency-amount").value);
-  const from = document.getElementById("from-currency").value;
-  const to = document.getElementById("to-currency").value;
-  const result = document.getElementById("currency-result");
+// === Остальные режимы (заглушки) ===
+const placeholderMessage = "🔧 Этот калькулятор пока в разработке 🔧";
 
-  if (isNaN(amount)) {
-    result.textContent = "Введите сумму!";
-    return;
-  }
-
-  // Пример простых курсов (фиктивные)
-  const rates = {
-    USD: 1,
-    EUR: 0.9,
-    RUB: 100,
-    MDL: 17.5
-  };
-
-  if (!rates[from] || !rates[to]) {
-    result.textContent = "Ошибка конвертации";
-    return;
-  }
-
-  const converted = (amount / rates[from]) * rates[to];
-  result.textContent = `${amount} ${from} = ${converted.toFixed(2)} ${to}`;
+["fractions", "time", "mass", "distance", "currency"].forEach(mode => {
+  const container = document.getElementById(`${mode}-mode`);
+  container.innerHTML = `
+    <div class="placeholder">
+      <h2>${placeholderMessage}</h2>
+      <p>Здесь скоро появится калькулятор: <b>${mode}</b></p>
+    </div>
+  `;
 });
