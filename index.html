@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MultiCalc by Ilya, Keyneee, ChatGPT</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1 class="title">MultiCalc <span>by Ilya, Keyneee, ChatGPT</span></h1>
+
+    <div class="tabs">
+      <button class="tab active" data-mode="basic">Обычный</button>
+      <button class="tab" data-mode="fractions">Дроби</button>
+      <button class="tab" data-mode="time">Время</button>
+      <button class="tab" data-mode="mass">Масса</button>
+      <button class="tab" data-mode="distance">Расстояние</button>
+      <button class="tab" data-mode="currency">Валюта</button>
+    </div>
+
+    <div class="calc glass" id="calc">
+      <input type="text" id="display" readonly />
+
+      <!-- === Обычный калькулятор === -->
+      <div class="buttons" id="basic-mode">
+        <button class="btn">(</button>
+        <button class="btn">)</button>
+        <button class="btn">^</button>
+        <button class="btn clear">C</button>
+
+        <button class="btn">7</button>
+        <button class="btn">8</button>
+        <button class="btn">9</button>
+        <button class="btn operator">÷</button>
+
+        <button class="btn">4</button>
+        <button class="btn">5</button>
+        <button class="btn">6</button>
+        <button class="btn operator">×</button>
+
+        <button class="btn">1</button>
+        <button class="btn">2</button>
+        <button class="btn">3</button>
+        <button class="btn operator">−</button>
+
+        <button class="btn">0</button>
+        <button class="btn">.</button>
+        <button class="btn back">←</button>
+        <button class="btn operator">+</button>
+
+        <button class="btn equal">=</button>
+      </div>
+
+      <!-- === Калькулятор дробей === -->
+      <div class="mode hidden" id="fractions-mode">
+        <h3>Калькулятор дробей</h3>
+        <input type="text" id="fraction-input" placeholder="Например: 1/2 + 3/4" />
+        <button class="btn convert" id="fraction-calc">Вычислить</button>
+        <p id="fraction-result">Результат появится здесь 🍰</p>
+      </div>
+
+      <!-- === Калькулятор времени === -->
+      <div class="mode hidden" id="time-mode">
+        <h3>Калькулятор времени</h3>
+        <input type="number" id="time-value" placeholder="Введите значение" />
+        <div class="selectors">
+          <select id="from-time">
+            <option value="seconds">Секунды</option>
+            <option value="minutes">Минуты</option>
+            <option value="hours">Часы</option>
+            <option value="days">Дни</option>
+          </select>
+          <span>→</span>
+          <select id="to-time">
+            <option value="seconds">Секунды</option>
+            <option value="minutes">Минуты</option>
+            <option value="hours">Часы</option>
+            <option value="days">Дни</option>
+          </select>
+        </div>
+        <button class="btn convert" id="time-convert">Конвертировать</button>
+        <p id="time-result">Результат появится здесь ⏱️</p>
+      </div>
+
+      <!-- === Калькулятор массы === -->
+      <div class="mode hidden" id="mass-mode">
+        <h3>Калькулятор массы</h3>
+        <input type="number" id="mass-value" placeholder="Введите значение" />
+        <div class="selectors">
+          <select id="from-mass">
+            <option value="g">Граммы</option>
+            <option value="kg">Килограммы</option>
+            <option value="t">Тонны</option>
+          </select>
+          <span>→</span>
+          <select id="to-mass">
+            <option value="g">Граммы</option>
+            <option value="kg">Килограммы</option>
+            <option value="t">Тонны</option>
+          </select>
+        </div>
+        <button class="btn convert" id="mass-convert">Конвертировать</button>
+        <p id="mass-result">Результат появится здесь ⚖️</p>
+      </div>
+
+      <!-- === Калькулятор расстояния === -->
+      <div class="mode hidden" id="distance-mode">
+        <h3>Калькулятор расстояния</h3>
+        <input type="number" id="distance-value" placeholder="Введите значение" />
+        <div class="selectors">
+          <select id="from-distance">
+            <option value="m">Метры</option>
+            <option value="km">Километры</option>
+            <option value="mi">Мили</option>
+          </select>
+          <span>→</span>
+          <select id="to-distance">
+            <option value="m">Метры</option>
+            <option value="km">Километры</option>
+            <option value="mi">Мили</option>
+          </select>
+        </div>
+        <button class="btn convert" id="distance-convert">Конвертировать</button>
+        <p id="distance-result">Результат появится здесь 📏</p>
+      </div>
+
+      <!-- === Калькулятор валют === -->
+      <div class="mode hidden" id="currency-mode">
+        <h3>Калькулятор валют</h3>
+        <input type="number" id="currency-amount" placeholder="Введите сумму" />
+        <div class="selectors">
+          <select id="from-currency">
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="RUB">RUB</option>
+            <option value="MDL">MDL</option>
+          </select>
+          <span>→</span>
+          <select id="to-currency">
+            <option value="RUB">RUB</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="MDL">MDL</option>
+          </select>
+        </div>
+        <button class="btn convert">Конвертировать</button>
+        <p id="currency-result">Результат появится здесь 💰</p>
+      </div>
+    </div>
+
+    <footer>© 2025 MultiCalc by Ilya, Keyneee, ChatGPT</footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
